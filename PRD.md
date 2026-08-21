@@ -1,6 +1,6 @@
 # 📋 Recruitment Funnel Analytics Dashboard
 
-**Product Requirements Document (PRD) • Version 1.0**
+**Product Requirements Document (PRD) 
 
 ---
 
