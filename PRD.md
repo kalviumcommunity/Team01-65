@@ -1,77 +1,171 @@
-# Product Requirements Document
+# 📋 Recruitment Funnel Analytics Dashboard
 
-## Recruitment Funnel Analytics Dashboard
+**Product Requirements Document (PRD) • Version 1.0**
+
+---
+
+## 1. Business Problem & Goal
 
 ### Problem
 
-HR teams have recruitment funnel data, interview feedback, and onboarding records, but no shared reporting system identifies which hiring stages contribute most to candidate drop-offs across departments. This makes it difficult to pinpoint bottlenecks and improve the hiring process using data.
+HR teams have recruitment, interview, and offer records across separate datasets, making it difficult to identify which hiring stages cause the most candidate drop-off or to compare recruitment performance across departments.
 
 ### Goal
 
-Build an interactive analytics dashboard that consolidates recruitment data and provides HR teams with a clear view of candidate movement through the hiring funnel. It will help HR teams identify bottleneck stages, compare departments, and make data-driven recruitment decisions.
+Build a shared analytics dashboard that standardizes recruitment data, calculates funnel metrics, flags bottlenecks and supports evidence-based recruitment decisions.
 
-### Users
+### 👥 Users
 
-- HR teams evaluating recruitment funnel performance.
-- Recruiters and hiring managers reviewing department-level hiring trends.
-- People analytics and HR operations staff preparing and interpreting funnel data.
+- HR teams
+- Recruiters and hiring managers
+- People analytics and HR operations
 
-### Core Features
+### 🎯 IN SCOPE
 
-- Clean and preprocess recruitment funnel, interview, and onboarding data.
-- Calculate funnel metrics such as stage-wise conversion rate, time-in-stage, drop-off rate, and offer-acceptance rate.
-- Analyze relationships between hiring stages and candidate drop-off.
-- Identify bottleneck stages and flag stages with abnormally high drop-off.
-- Compare departments using funnel and time-to-hire metrics.
-- Produce recruitment process recommendations based on multiple indicators.
-- Expose data and analysis through REST APIs and an interactive dashboard.
+- Cleaning
+- Funnel metrics
+- Time-in-stage
+- Department comparison
+- Bottleneck flags
+- APIs
+- Dashboard insights
 
-### Data Needed
+### 🚫 OUT OF SCOPE
 
-- Candidate and requisition identifiers.
-- Department and job role.
-- Hiring stage (applied, screened, interviewed, offered, hired, rejected).
-- Stage entry and exit timestamps, and time spent in each stage.
-- Interview feedback and scores.
-- Drop-off or rejection reason.
-- Onboarding completion status.
+- Live ATS/HRIS integration
+- Predictive attrition
+- Automated candidate scoring
+- A/B testing
+- Continuous model retraining
 
-The initial dataset will contain recruitment funnel records with candidate ID, department, hiring stage, stage timestamps, interview outcome, and drop-off status.
+---
 
-### Tech Stack
+## 2. User Stories & Acceptance Criteria
 
-| Area | Technologies |
-|---|---|
-| Current prototype | Python, Pandas, FastAPI, and CSV data |
-| Data analysis | NumPy, Matplotlib or Seaborn, and scikit-learn |
-| Planned dashboard | React, Vite, Tailwind CSS, Recharts or Chart.js, and Axios |
-| Planned backend & storage | Node.js, Express.js, and MongoDB |
-| Collaboration | GitHub Issues, Projects, branches, pull requests, and code reviews |
+| Role | User Story | Acceptance Criteria |
+|---|---|---|
+| HR Analyst | View candidate counts at each hiring stage, so that I can identify where the funnel loses the most candidates. | Stage counts and drop-off rates are visible. |
+| Recruiter | Compare departments, so that I can identify inefficient recruitment processes. | Conversion, drop-off and time-to-hire are comparable. |
+| HR Operations | Flag high-drop-off and long-duration stages, so that I can prioritize improvements. | Documented thresholds/rules flag bottlenecks. |
+| Hiring Manager | View interview outcomes with funnel stages, so that I can understand candidate progression. | Interview outcomes/scores link where available. |
 
-### Basic Flow
+---
 
-1. Collect recruitment funnel, interview feedback, and onboarding data.
-2. Clean and preprocess the data.
-3. Create funnel and stage-level features.
-4. Analyze drop-off patterns across hiring stages.
-5. Compare departments and identify bottlenecks.
-6. Generate recruitment process recommendations.
-7. Present results through APIs and the dashboard.
+## 3. KPI Planning
 
-### Success Criteria
+**KPI Formula:** Metric + Measurement Method + Numeric/defined Target + Timeline.
 
-- Identify and explain which hiring stages contribute most to candidate drop-off.
-- Compare funnel performance and time-to-hire across departments.
-- Identify bottleneck stages that need process improvement.
-- Provide actionable recruitment recommendations supported by multiple indicators.
-- Present insights through an understandable dashboard.
-- Keep the analysis reproducible and documented.
+| Metric | Method | Target | Timeline |
+|---|---|---|---|
+| Funnel drop-off | 100 × (stage entrants − next-stage entrants) / stage entrants | Identify highest-drop-off stage | First release |
+| Stage conversion | next-stage entrants / current-stage entrants × 100 | Compare available stages | First release |
+| Time-in-stage | Median(stage exit − stage entry) | Flag above department baseline | First release |
+| Offer acceptance | accepted offers / total offers × 100 | Report overall + department | First release |
 
-### Out of Scope
+---
 
-- Real-time funnel tracking or predictive attrition modeling.
-- Automated candidate screening or scoring decisions.
-- Integration with live ATS or HRIS systems.
-- Personalized candidate recommendations.
-- A/B testing of hiring processes.
-- Continuous model retraining.
+## 📊 PRD — Data, Stakeholders, Risks & Review
+
+## 4. Dataset Documentation
+
+### 📁 Source
+
+- `candidates.csv`
+- `applications.csv`
+- `jobs.csv`
+- `interviews.csv`
+- `offers.csv`
+
+### 🧾 Fields
+
+Candidate/application/job IDs, department, role, stage/status, timestamps, interview outcome/score and offer status where available.
+
+### 🔍 Quality
+
+- Validate columns/types
+- Handle missing values
+- Identify duplicates
+- Standardize timestamps and categories
+
+### 🔄 Owner / Refresh
+
+**Owner:** Project analytics team.
+
+**Refresh:** Initial prototype uses static CSV data; production refresh cadence will be defined later.
+
+---
+
+## 5. Stakeholder Map
+
+### 👤 Primary Users
+
+HR teams, recruiters and hiring managers — consume insights and act on bottlenecks.
+
+### 👥 Secondary Users
+
+People analytics and HR operations — prepare and interpret recruitment reporting.
+
+### 🗄 Data Owners
+
+Teams responsible for candidate, application, job, interview and offer records.
+
+### ✅ Approvers
+
+Project/product stakeholders validating scope, KPIs, findings and release readiness.
+
+---
+
+## 6. Data Workflow & Technical Scope
+
+### Workflow
+
+- Raw CSVs → validation → cleaning
+- Transformation → feature engineering → funnel analytics
+- Analytical storage → REST APIs → dashboard → HR insights
+
+### Prototype
+
+Python, Pandas, FastAPI and CSV data.
+
+### Analysis
+
+Analysis may use NumPy and Matplotlib/Seaborn.
+
+### Planned Dashboard / Backend / Storage
+
+- React
+- Vite
+- Tailwind
+- Recharts/Chart.js
+- Node/Express
+- MongoDB
+
+---
+
+## 7. Risks & Assumptions
+
+| Risk | Likelihood / Impact | Mitigation |
+|---|---|---|
+| ⚠️ Missing fields | Medium / High | Use only available fields; document unavailable onboarding/rejection data. |
+| ⚠️ Data quality | Medium / High | Validate types, duplicates, timestamps and required columns. |
+| ⚠️ Uneven samples | Medium / Medium | Show sample counts and avoid over-interpreting small departments. |
+| ⚠️ Metric inconsistency | Low / High | Centralize metric definitions and reuse calculation logic. |
+
+---
+
+## 8. Success Criteria & PRD Review Checklist
+
+- ☐ Highest-drop-off stages are identified and explained using measurable metrics.
+- ☐ Departments are compared using conversion, drop-off and time-to-hire indicators.
+- ☐ Bottleneck stages are flagged using documented rules or thresholds.
+- ☐ Recommendations use multiple indicators rather than a single metric.
+- ☐ Data assumptions, quality issues and unavailable fields are documented.
+- ☐ Analysis is reproducible and dashboard insights are understandable.
+
+---
+
+## 9. Delivery Boundary
+
+### Definition of Done
+
+**Validated data → documented metrics → reproducible analysis → bottleneck identification → API-ready outputs → dashboard-ready insights → stakeholder review and approval**
