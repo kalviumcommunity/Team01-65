@@ -119,7 +119,9 @@ Project/product stakeholders validating scope, KPIs, findings and release readin
 
 ### Workflow
 
-**Raw CSVs → validation → cleaning → transformation → feature engineering → funnel analytics → analytical storage → REST APIs → dashboard → HR insights**
+- Raw CSVs → validation → cleaning
+- Transformation → feature engineering → funnel analytics
+- Analytical storage → REST APIs → dashboard → HR insights
 
 ### Prototype
 
