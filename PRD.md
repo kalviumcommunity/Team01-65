@@ -8,7 +8,7 @@
 
 ### Problem
 
-HR teams have recruitment, interview and offer records across separate datasets, making it difficult to identify which hiring stages cause the most candidate drop-off or to compare recruitment performance across departments.
+HR teams have recruitment, interview, and offer records across separate datasets, making it difficult to identify which hiring stages cause the most candidate drop-off or to compare recruitment performance across departments.
 
 ### Goal
 
