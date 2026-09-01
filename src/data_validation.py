@@ -24,7 +24,10 @@ def validate_datasets(
     print("DATA VALIDATION")
     print("=" * 60)
 
+    # --------------------------------------------------
     # 1. Missing values and duplicate rows
+    # --------------------------------------------------
+
     datasets = {
         "Candidates": candidates,
         "Applications": applications,
@@ -46,7 +49,10 @@ def validate_datasets(
 
         print(f"\nDuplicate rows: {df.duplicated().sum()}")
 
+    # --------------------------------------------------
     # 2. Primary key validation
+    # --------------------------------------------------
+
     print("\n" + "=" * 50)
     print("PRIMARY KEY VALIDATION")
     print("=" * 50)
@@ -68,7 +74,10 @@ def validate_datasets(
             f"duplicates={duplicate_count}, nulls={null_count}"
         )
 
+    # --------------------------------------------------
     # 3. Numeric validation
+    # --------------------------------------------------
+
     print("\n" + "=" * 50)
     print("NUMERIC VALIDATION")
     print("=" * 50)
@@ -103,7 +112,10 @@ def validate_datasets(
         (offers["base_salary"] < 0).sum(),
     )
 
+    # --------------------------------------------------
     # 4. Foreign key validation
+    # --------------------------------------------------
+
     print("\n" + "=" * 50)
     print("FOREIGN KEY VALIDATION")
     print("=" * 50)
@@ -144,7 +156,10 @@ def validate_datasets(
         invalid_application_offers.sum(),
     )
 
+    # --------------------------------------------------
     # 5. Date validation
+    # --------------------------------------------------
+
     print("\n" + "=" * 50)
     print("DATE VALIDATION")
     print("=" * 50)
@@ -164,7 +179,8 @@ def validate_datasets(
         )
 
         invalid_dates = (
-            converted_dates.isnull() & df[column].notnull()
+            converted_dates.isnull()
+            & df[column].notnull()
         ).sum()
 
         print(
@@ -172,17 +188,40 @@ def validate_datasets(
             invalid_dates,
         )
 
+    # --------------------------------------------------
     # 6. Offer validation
+    # --------------------------------------------------
+
     print("\n" + "=" * 50)
     print("OFFER VALIDATION")
     print("=" * 50)
 
+    # Accepted offers must have an accepted_at date
     accepted_without_date = (
-        offers["accepted"] & offers["accepted_at"].isnull()
+        offers["accepted"]
+        & offers["accepted_at"].isnull()
     ).sum()
 
+    # Rejected offers should not have an accepted_at date
     rejected_with_date = (
-        ~offers["accepted"] & offers["accepted_at"].notnull()
+        ~offers["accepted"]
+        & offers["accepted_at"].notnull()
+    ).sum()
+
+    # accepted_at should not be before offered_at
+    offered_dates = pd.to_datetime(
+        offers["offered_at"],
+        errors="coerce",
+    )
+
+    accepted_dates = pd.to_datetime(
+        offers["accepted_at"],
+        errors="coerce",
+    )
+
+    invalid_acceptance_dates = (
+        offers["accepted_at"].notnull()
+        & (accepted_dates < offered_dates)
     ).sum()
 
     print(
@@ -193,6 +232,11 @@ def validate_datasets(
     print(
         "Rejected offers with accepted_at:",
         rejected_with_date,
+    )
+
+    print(
+        "Offers with accepted_at before offered_at:",
+        invalid_acceptance_dates,
     )
 
 
